@@ -7,10 +7,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Home() {
   const { currentUser, setCurrentUser } = useContext(userAuthorContextObj);
-  const { isSignedIn, user, isLoaded } = useUser();
+  const { isSignedIn, user, isLoaded,isActive } = useUser();
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
+  console.log("current user from home",isActive)
   async function onSelectRole(e) {
     setError("");
     const selectedRole = e.target.value;
@@ -23,16 +23,20 @@ function Home() {
         let { message, payload } = res.data;
         if (message === "author") {
           setCurrentUser({ ...currentUser, ...payload });
+          //console.log("payload fromhome",payload)
+
           localStorage.setItem("currentUser", JSON.stringify(payload));
         } else {
           setError(message || "Something went wrong, Invalid Role");
         }
       }
-      if (selectedRole === "user") {
+      if (selectedRole === "user" ) {
         res = await axios.post("http://localhost:3000/user-api/user", currentUser);
         let { message, payload } = res.data;
         if (message === "user") {
           setCurrentUser({ ...currentUser, ...payload });
+          //console.log("payload fromhome",payload)
+
           localStorage.setItem("currentUser", JSON.stringify(payload));
         } else {
           setError(message || "Something went wrong, Invalid Role");
@@ -42,6 +46,8 @@ function Home() {
         res = await axios.post("http://localhost:3000/admin-api/admin", currentUser);
         let { message, payload } = res.data;
         if (message === "admin") {
+          //console.log("payload fromhome",payload)
+
           setCurrentUser({ ...currentUser, ...payload });
           localStorage.setItem("currentUser", JSON.stringify(payload));
         } else {
@@ -77,6 +83,7 @@ function Home() {
     }
   }, [currentUser]);
 
+  console.log("After all effects from home :",currentUser)
   return (
     <div className="container mt-5">
       {!isSignedIn ? (
@@ -100,7 +107,7 @@ function Home() {
           </div>
         </div>
       ) : (
-        <div className="container a">
+            <div className="container a">
           <div className="d-flex flex-column align-items-center  text-white p-4 rounded shadow-sm" style={{ backgroundColor: 'rgb(135, 206, 235)	' }}>
             <img
               src={user.imageUrl}
@@ -163,6 +170,7 @@ function Home() {
           </div>
         </div>
       )}
+      
     </div>
   );
 }

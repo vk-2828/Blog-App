@@ -14,7 +14,6 @@ adminApp.post('/admin',expressAsyncHandler(expressAsyncHandler(createUserOrAutho
 adminApp.get('/userauthors',expressAsyncHandler(async(req,res)=>{
     const userList = await UserAuthor.find({
         role: { $in: ['author', 'user'] }, 
-        isActive: true
       });
       
     res.status(201).send({message:"All user and authors",payload:userList})
