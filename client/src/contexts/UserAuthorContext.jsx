@@ -8,7 +8,8 @@ function UserAuthorContext({ children }) {
         lastName: '',
         email: '',
         profileImageUrl: '',
-        role: ''
+        role: '',
+        isActive:''
     });
 
     // Load user data from localStorage when the page reloads
@@ -32,7 +33,8 @@ function UserAuthorContext({ children }) {
             lastName: '',
             email: '',
             profileImageUrl: '',
-            role: ''
+            role: '',
+            isActive:''
         });
     }
 
